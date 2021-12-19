@@ -14,28 +14,39 @@ setup = () => {
   rectMode(RADIUS);
   randomSeed(seed);
   noiseSeed(seed);
-  while (points.length < 5000) {
+  while (points.length < 500) {
     points.push({ x: random(), y: random(0.005, 0.995) });
   }
   // colorMode(HSB);
-  STEP = random(5, 15);
+  STEP = random(5, 25);
+  noLoop();
+  strokeCap(SQUARE);
 };
 
 draw = () => {
   background(BG);
-  strokeWeight(s / 100);
+  background(155, 50, 50);
+  translate(0.01 * s, 0.01 * s);
+  scale(0.98, 0.9);
   for (let n = 0; n < STEP; n++) {
     push();
-    stroke((200 * n) / STEP);
     noFill();
-    beginShape();
+    // beginShape();
+    stroke((200 * n) / STEP);
+    translate(0, (height * n) / STEP);
     points
       .filter((p) => p.y < (n + 1) / STEP && p.y > n / STEP)
       .sort((a, b) => b.x - a.x)
       .forEach((p) => {
-        curveVertex(p.x * s, p.y * height);
+        push();
+        translate(s * p.x, 0);
+        scale(1, 0.9);
+        strokeWeight((noise(p.x) * s) / 10);
+        line(0, 0, 0, (height * 1) / STEP);
+        // curveVertex(p.x * s, p.y * height);
+        pop();
       });
-    endShape();
+    // endShape();
     pop();
   }
 };
