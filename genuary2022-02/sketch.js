@@ -8,7 +8,7 @@ console.log(seed);
 let img;
 
 preload = () => {
-  img = loadImage("img.jpeg");
+  img = loadImage("./img.jpeg");
 };
 
 setup = () => {
