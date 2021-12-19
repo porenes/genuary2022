@@ -26,7 +26,7 @@ class Tile {
   move(s, reverse = false) {
     this.y += ((reverse ? -1 : 1) * (s * this.y * noise(this.y))) / 10000;
     this.x += ((reverse ? -1 : 1) * (s * this.x * noise(this.x))) / 10000;
-    this.a += (reverse ? -1 : 1) * noise(this.x, this.y);
+    this.a += (reverse ? -1 : 1) * 10 * noise(this.x, this.y);
   }
 }
 
@@ -37,11 +37,12 @@ setup = () => {
   rectMode(RADIUS);
   randomSeed(seed);
   noiseSeed(seed);
+  frameRate(10);
   noStroke();
   // noLoop();
   for (let x = -1 / 3; x <= 1 / 3; x += 1 / 60) {
     for (let y = -1 / 3; y <= 1 / 3; y += 1 / 60) {
-      tiles.push(new Tile(x, y, 255 * random()));
+      tiles.push(new Tile(x, y, 255 * noise(x, y)));
     }
   }
 };
@@ -49,7 +50,7 @@ let reverse = false;
 draw = () => {
   background(BG);
   translate(s / 2, s / 2);
-  reverse = (frameCount + 1) % 20 == 0 ? !reverse : reverse;
+  reverse = (frameCount + 1) % 50 == 0 ? !reverse : reverse;
   tiles.forEach((t) => t.draw(s));
   tiles.forEach((t) => t.move(s, reverse));
 };
