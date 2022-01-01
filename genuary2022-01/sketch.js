@@ -26,7 +26,7 @@ setup = () => {
   colorMode(HSB, 360, 100, 100, 100);
 
   //filling the array
-  let rBase = (1 - 2 * BORDER) / 100;
+  let rBase = (1 - 2 * BORDER) / 101;
   let c1 = color(360 * random(), 100, 100);
   let c2 = color(360 * random(), 100, 100);
   let centerX = random();
@@ -39,8 +39,8 @@ setup = () => {
       let c = lerpColor(c1, c2, dist(x, y, centerX, centerY) * 2);
       stuffs.push(new Something(x, y, r, c));
     }
-    console.log(stuffs.length);
   }
+  console.log(stuffs.length);
 };
 
 draw = () => {
