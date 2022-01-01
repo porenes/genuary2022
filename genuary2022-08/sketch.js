@@ -15,7 +15,10 @@ setup = () => {
   randomSeed(seed);
   noiseSeed(seed);
   while (points.length < STEP) {
-    points.push({ x: random(0.1, 0.9), y: random(0.1, 0.9) });
+    points.push({
+      x: random(0.1, 0.9),
+      y: random(0.1, 0.9),
+    });
   }
   colorMode(HSB);
   // noLoop();
