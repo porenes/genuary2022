@@ -9,22 +9,21 @@ class Nebula {
   constructor(x, y) {
     this.x = x;
     this.y = y;
-    this.a = random(-10, 10);
-    this.rX = random(0.3, 0.4);
-    this.rY = 0.5 * random(0.1, 0.2);
+    this.a = random(-20, 20);
+    this.rX = random(0.1, 0.3);
+    this.rY = 0.04 * random(0.1, 0.2);
     this.spots = new Array();
-    let nbS = 2000;
+    let nbS = 5000 * random();
     colorMode(HSB);
+    let c1 = color(240 * random(), 100, 20, 50);
+    let c2 = color(300 * random(), 100, 20, 50);
     while (this.spots.length < nbS) {
       let ng = random(360);
-      let x = random(-cos(ng), cos(ng)) * this.rX;
-      let y = random(-sin(ng), sin(ng)) * this.rY;
-      let c1 = color(240, 100, 20, 50);
-      let c2 = color(300, 100, 20, 50);
+      let x = random() * random(-cos(ng), cos(ng)) * this.rX;
+      let y = 0.5 * random() * random(-sin(ng), sin(ng)) * this.rY;
       let c = lerpColor(c1, c2, noise(ng * 1000));
-      this.spots.push({ x, y, r: 0.03, c });
+      this.spots.push({ x, y, r: 0.001, c });
     }
-    console.log(this.spots);
   }
 
   draw(s) {
@@ -73,16 +72,18 @@ class Star {
     pop();
   }
 }
-let neb;
+let nebs = new Array();
 let stars = new Array();
 setup = () => {
-  s = min(windowWidth, windowHeight);
-  createCanvas(s, s);
+  s = max(windowWidth, windowHeight);
+  createCanvas(s, windowHeight);
   angleMode(DEGREES);
   rectMode(RADIUS);
   randomSeed(seed);
   noiseSeed(seed);
-  neb = new Nebula(0.5, 0.5);
+  while (nebs.length < 200) {
+    nebs.push(new Nebula(random(), random()));
+  }
   while (stars.length < 100) {
     stars.push(new Star(random(0.1, 0.9), random(0.1, 0.9)));
   }
@@ -93,12 +94,13 @@ draw = () => {
   background(BG);
   blendMode(SCREEN);
   strokeWeight(s / 40000);
-  stars.forEach((st) => st.draw(s));
-  blendMode(SCREEN);
-  neb.draw(s);
+  // stars.forEach((st) => st.draw(s));
+  // blendMode(SCREEN);
+  // neb.draw(s);
+  nebs.forEach((n) => n.draw(s));
 };
 
 windowResized = () => {
-  s = min(windowWidth, windowHeight);
-  resizeCanvas(s, s);
+  s = max(windowWidth, windowHeight);
+  createCanvas(s, windowHeight);
 };
