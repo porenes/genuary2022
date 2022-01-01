@@ -60,10 +60,6 @@ function generateCircles() {
     if (loopCycle === 0) {
       if (currentR > 1) {
         currentR = currentR - 1;
-        console.log(
-          "Reduced Radius: " + currentR,
-          "Circles: " + circles.length
-        );
         loopCycle = maxLoops;
       }
     }
