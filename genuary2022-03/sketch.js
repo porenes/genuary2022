@@ -48,27 +48,15 @@ class Star {
   constructor(x, y) {
     this.x = x;
     this.y = y;
-    this.r = random(0.001, 0.02);
+    this.r = random(0.0001, 0.002);
   }
   draw(s) {
-    stroke(250, 10);
+    stroke(250, 50);
     push();
     translate(this.x * s, this.y * s);
-    for (let p = 0; p < this.r; p += (1 * this.r) / 50) {
-      line(0, (this.r - p) * s, p * s, 0);
-      line(0, -(this.r - p) * s, -p * s, 0);
-      line(0, (this.r - p) * s, -p * s, 0);
-      line(0, -(this.r - p) * s, p * s, 0);
-    }
-    rotate(45);
-    scale(0.5);
-    for (let p = 0; p < this.r; p += this.r / 10) {
-      line(0, (this.r - p) * s, p * s, 0);
-      line(0, -(this.r - p) * s, -p * s, 0);
-      line(0, (this.r - p) * s, -p * s, 0);
-      line(0, -(this.r - p) * s, p * s, 0);
-    }
-    // circle(0, 0, this.r * s);
+    scale(random());
+
+    circle(0, 0, this.r * s);
     pop();
   }
 }
@@ -76,13 +64,14 @@ let nebs = new Array();
 let stars = new Array();
 setup = () => {
   s = max(windowWidth, windowHeight);
-  createCanvas(s, windowHeight);
+  // s = 3000;
+  createCanvas(s, s);
   angleMode(DEGREES);
   rectMode(RADIUS);
   randomSeed(seed);
   noiseSeed(seed);
-  while (nebs.length < 200) {
-    nebs.push(new Nebula(random(), random()));
+  while (nebs.length < 20) {
+    nebs.push(new Nebula(random(0.2, 0.8), random()));
   }
   while (stars.length < 100) {
     stars.push(new Star(random(0.1, 0.9), random(0.1, 0.9)));
@@ -94,7 +83,7 @@ draw = () => {
   background(BG);
   blendMode(SCREEN);
   strokeWeight(s / 40000);
-  // stars.forEach((st) => st.draw(s));
+  stars.forEach((st) => st.draw(s));
   // blendMode(SCREEN);
   // neb.draw(s);
   nebs.forEach((n) => n.draw(s));
