@@ -12,7 +12,7 @@ preload = () => {
 };
 
 setup = () => {
-  s = min(windowWidth, windowHeight);
+  s = max(windowWidth, windowHeight);
   createCanvas(s, s);
   angleMode(DEGREES);
   rectMode(RADIUS);
@@ -48,13 +48,13 @@ draw = () => {
         let color = Math.floor(2.99999 * random());
         switch (color) {
           case 0:
-            stroke(c[0], 0, 0);
+            stroke(25.5 * Math.floor((10 * c[0]) / 255), 0, 0);
             break;
           case 1:
-            stroke(0, c[1], 0);
+            stroke(0, 25.5 * Math.floor((10 * c[1]) / 255), 0);
             break;
           case 2:
-            stroke(0, 0, c[2]);
+            stroke(0, 0, 25.5 * Math.floor((10 * c[2]) / 255));
             break;
 
           default:
