@@ -5,6 +5,19 @@ let BG = 30;
 let seed = Math.floor(Date.now() / 5000);
 console.log(seed);
 
+// Recording
+const FRAMERECORD = 100;
+const FRAMERATE = 12;
+let RECORD = true;
+let recordButton;
+
+var capturer = new CCapture({
+  format: "gif",
+  verbose: false,
+  framerate: FRAMERATE,
+  workersPath: "libraries/",
+});
+
 let tiles = new Array();
 class Tile {
   constructor(x, y, c) {
@@ -32,12 +45,13 @@ class Tile {
 
 setup = () => {
   s = min(windowWidth, windowHeight);
+  // s = 600;
   createCanvas(s, s);
   angleMode(DEGREES);
   rectMode(RADIUS);
   randomSeed(seed);
   noiseSeed(seed);
-  frameRate(10);
+  frameRate(FRAMERATE);
   noStroke();
   // noLoop();
   for (let x = -1 / 3; x <= 1 / 3; x += 1 / 60) {
@@ -53,6 +67,19 @@ draw = () => {
   reverse = (frameCount + 1) % 50 == 0 ? !reverse : reverse;
   tiles.forEach((t) => t.draw(s));
   tiles.forEach((t) => t.move(s, reverse));
+
+  if (RECORD) {
+    if (frameCount == 1) {
+      capturer.start();
+    }
+    capturer.capture(document.getElementById("defaultCanvas0"));
+
+    if (frameCount === FRAMERECORD) {
+      capturer.stop();
+      capturer.save();
+      return;
+    }
+  }
 };
 
 windowResized = () => {
