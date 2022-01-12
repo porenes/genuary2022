@@ -1,5 +1,5 @@
 let s;
-let BG = 130;
+let BG = 30;
 
 //generating a seed that updates avery 30 sec
 let seed = Math.floor(Date.now() / 500);
@@ -13,7 +13,7 @@ var maxLoops = 1000;
 
 function setup() {
   // s = min(windowWidth, windowHeight);
-  s = 600;
+  s = 800;
   createCanvas(s, s);
   angleMode(DEGREES);
   // rectMode(RADIUS);
@@ -21,16 +21,17 @@ function setup() {
   noiseSeed(seed);
   smooth();
   noLoop();
+  noFill();
 
   colorMode(HSB);
-  BG = Math.floor(360 * random());
+  // BG = Math.floor(360 * random());
 
   generateCircles();
 }
 
 function draw() {
-  background(255);
-
+  background(BG);
+  strokeWeight(0.2);
   for (var i = 0; i < circles.length; i++) {
     circles[i].draw();
   }
@@ -80,7 +81,7 @@ Circle.prototype.draw = function () {
   if (noise(this.r > 0.5)) {
     beginShape();
     let i = 0;
-    while (i < (100 * this.r) / 40) {
+    while (i < (400 * this.r) / 40) {
       let a = random(360);
       vertex(cos(a) * this.r, sin(a) * this.r);
       i++;
