@@ -1,10 +1,6 @@
 let s;
-let BG = 30;
+let BG = 15;
 const BORDER = 0.01;
-
-//generating a seed that updates avery 30 sec
-let seed = Math.floor(Date.now() / 5000);
-console.log(seed);
 
 /**
  * In order to make it resizable, everythis is drawn base on the current size of the canvas (s)
@@ -13,15 +9,23 @@ console.log(seed);
 /**
  * Array of something
  */
-let stuffs = new Array();
+
 let isHSB;
 setup = () => {
   s = min(windowWidth, windowHeight);
   createCanvas(s, s);
   angleMode(DEGREES);
   rectMode(RADIUS);
+};
+
+draw = () => {
+  // clear();
+  // blendMode(OVERLAY);
+  let seed = Math.floor(Date.now() / 30000);
+  console.log(seed);
   randomSeed(seed);
   noiseSeed(seed);
+  let stuffs = new Array();
   isHSB = random() > 0.5;
   colorMode(HSB, 360, 100, 100, 100);
 
@@ -40,19 +44,20 @@ setup = () => {
       stuffs.push(new Something(x, y, r, c));
     }
   }
-  console.log(stuffs.length);
-};
-
-draw = () => {
-  // clear();
-  // blendMode(OVERLAY);
+  // console.log(stuffs.length);
   background(BG);
+  translate(0.05 * s, 0.05 * s);
+  scale(0.9);
   stuffs.forEach((something) => something.draw(s));
 };
 
 windowResized = () => {
   s = min(windowWidth, windowHeight);
   resizeCanvas(s, s);
+};
+
+keyPressed = () => {
+  if (key == "s") save("Memory-from-" + Date.now());
 };
 
 class Something {
@@ -67,12 +72,12 @@ class Something {
     push();
     stroke(this.c);
     // let sW = (0.5 * s) / 100;
-    let sW = (noise(this.x, this.y) * s) / 100;
+    let sW = (noise(this.x, this.y, frameCount / 50) * s) / 100;
     strokeWeight(sW);
     // circle(this.x * s, this.y * s, this.size * s);
     translate(
-      s * 0.03 * (0.5 - noise(0.5 - this.y, 0.5 - this.x)),
-      s * 0.03 * (0.5 - noise(0.5 - this.y, 0.5 - this.x))
+      s * 0.04 * (0.5 - noise(0.5 - this.y, 0.5 - this.x, frameCount / 50)),
+      s * 0.04 * (0.5 - noise(0.5 - this.y, 0.5 - this.x, frameCount / 50))
     );
     point(this.x * s, this.y * s);
     pop();
